@@ -152,6 +152,11 @@ if __name__ == '__main__':
             firstPass = 0
 
             print 'Augmenting by %s' % (newTerms[0])
+            print 'Expanded Query: ' + expandedQueryBing
+            sys.stdout.write('If you are not satisfied with this expansion, let\'s try and achieve the precision you want. Are you satisfied? (Y/N)? ')
+            value = raw_input()
+            if value.upper() == 'Y':
+                break
 
     #precision@10 is > desired , return query and results to user
     print 'Desired precision for context reached, done'
@@ -256,7 +261,13 @@ if __name__ == '__main__':
 
             print 'Augmenting by %s' % (newTerms[0])
 
+    queryWeights = queryOptimizer.Rocchio(indexerTwitter.invertedFile, DocumentListTwitter, relevantDocumentsTwitter, nonrelevantDocumentsTwitter)   #optimize new query here
 
+    newTerms = common.getTopTerms(expandedQueryTwitter, queryWeights, 1)
+    expandedQueryTwitter = expandedQueryTwitter + " " + newTerms[0]
+    print 'Found trend: ' + newTerms[0]
+    #precision@10 is > desired , return query and results to user
+    print 'Desired precision for context reached, done'
 
 
 

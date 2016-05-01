@@ -62,6 +62,26 @@ from Queue import Queue
 from tokenize import tokenize
 from threading import Thread
 
+def filter_ascii(s):
+    if all(ord(c) < 128 for c in s) == True:
+      string = s
+      for c in s:
+        # only a-z and A-Z for now
+        if (ord(c) >= 65 and ord(c) <= 90) or (ord(c) >= 97 and ord(c) <= 122):
+          continue
+        else:
+          string = string.replace(c, "")
+      return string
+    return ''
+
+def processToken(word):
+	processed_token = ""
+	if word[0] == "@" or word[0] == "#":
+		processed_token = word + ' ' + word
+	else:
+		processed_token = filter_ascii(word)
+	return processed_token
+
 class Indexer():
 
 
@@ -87,8 +107,7 @@ class Indexer():
 	def clearIndex(self):
 		with self.ifile_lock:
 			self.invertedFile = dict()
-			self.termsFrequencies = dict()
-
+			self.termsFrequencies = dict()		
 
 	def index(self, i, q):
 		while True:
@@ -128,8 +147,12 @@ class Indexer():
 					continue
 				if token in constants.QUERY_SKIP_TERMS:
 					continue
-					
+				if processToken(token) == "" or processToken(token) == " ":
+					continue
+				token = processToken(token)
 				terms.append(token)
+				if token[0] == "@" or token[0] == "#":
+					terms.append(token)
 
 				# Insert into invertedFile
 				with self.ifile_lock:
