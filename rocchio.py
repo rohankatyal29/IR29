@@ -10,12 +10,14 @@ import PorterStemmer
 
 class RocchioOptimizeQuery:
 
-    def __init__(self, firstQueryTerm):
+    def __init__(self, current_query):
         '''
         Constructor
         '''
         self.query = {}
-        self.query[firstQueryTerm] = 1
+        current_terms = current_query.split()
+        for term in current_terms:
+            self.query[term] = 1
 
     def clearQuery(self, current_query):
         self.query = {}

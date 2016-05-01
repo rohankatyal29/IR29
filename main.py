@@ -49,11 +49,11 @@ if __name__ == '__main__':
     bingClient = bingclient.BingClient(constants.BING_ACCT_KEY)
     twitterClient = twitterclient.TwitterClient(constants.APP_KEY, constants.APP_SECRET, constants.OAUTH_TOKEN, constants.OAUTH_TOKEN_SECRET)
     indexer = indexer.Indexer()
-    queryOptimizer = rocchio.RocchioOptimizeQuery(arglist[3])
+    expandedQueryBing = ' '.join(arglist[3:])
+    queryOptimizer = rocchio.RocchioOptimizeQuery(expandedQueryBing)
 
     firstPass = 1
     precisionAtK = 0.00
-    expandedQueryBing = arglist[3]
     queryWeights = {}
 
     #while precision at 10 is less than desired amt issue a query, obtain new precision metric, expand query, repeat
@@ -146,12 +146,12 @@ if __name__ == '__main__':
             print ''
             print 'Still below desired precision of %f' % precisionTenTargBing
             queryWeights = queryOptimizer.Rocchio(indexer.invertedFile, DocumentListBing, relevantDocumentsBing, nonrelevantDocumentsBing)   #optimize new query here
-            newTerms = common.getTopTerms(expandedQueryBing, queryWeights, 2)
+            newTerms = common.getTopTerms(expandedQueryBing, queryWeights, 1)
             #check if there are 2 new terms before adding
-            expandedQueryBing = expandedQueryBing + " " + newTerms[0] + " " + newTerms[1]
+            expandedQueryBing = expandedQueryBing + " " + newTerms[0]
             firstPass = 0
 
-            print 'Augmenting by %s %s' % (newTerms[0], newTerms[1])
+            print 'Augmenting by %s' % (newTerms[0])
 
     #precision@10 is > desired , return query and results to user
     print 'Desired precision for context reached, done'
