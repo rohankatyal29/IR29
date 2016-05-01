@@ -33,7 +33,7 @@ def filter_ascii(s):
 def processTweet(s):
     temp = re.sub(r'http[s]?://(?:[a-z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-f][0-9a-f]))+', '', s)
     text = temp.split()
-    processed_text = ''
+    processed_text = ""
     for word in text:
         if word[0] == "@" or word[0] == "#":
             processed_text = processed_text + " " + word

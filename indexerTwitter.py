@@ -100,7 +100,7 @@ class Indexer():
 			# Create key to hold tf weights
 			document["tfVector"] = { }
 		
-			document["Body"] = document["Description"]
+			document["Body"] = document["ProcessedTweet"]
 
 			# Terms List
 			terms = []
@@ -123,7 +123,7 @@ class Indexer():
 					token = token.lower()
 
 				# Is token eligible to indexed?
-				if (token == '' or len(token) <= 1 or len(token) >= 10 or is_number(token)):
+				if (token == '' or len(token) <= 3 or len(token) >= 50 or is_number(token)):
 					logging.debug('Indexer-%s: Discarding short or empty token \'%s\'' % (i, token))
 					continue
 				if token in constants.QUERY_SKIP_TERMS:

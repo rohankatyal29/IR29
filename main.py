@@ -111,7 +111,11 @@ if __name__ == '__main__':
                 DocumentListBing[i]['IsRelevant'] = 0   #1 is true , 0 is false
                 nonrelevantDocumentsBing.append(i)
             else:
+                DocumentListBing[i]['IsRelevant'] = 1   #1 is true , 0 is false
+                precisionAtK = precisionAtK + 1
+                relevantDocumentsBing.append(i)
                 print 'Invalid value entered!'
+
 
 
         precisionAtK = float(precisionAtK) / 10  #final precision@10 per round
@@ -125,8 +129,9 @@ if __name__ == '__main__':
             print 'Below desired precision, but can no longer augment the query'
             sys.exit()
 
-        print 'Indexing results...'
-        indexer.waitForIndexer() # Will block until indexer is done indexing all documents
+        if precisionAtK < precisionTenTargBing:
+            print 'Indexing results...'
+            indexer.waitForIndexer() # Will block until indexer is done indexing all documents
 
         # Print inveretd file
 
@@ -142,6 +147,7 @@ if __name__ == '__main__':
             print 'Still below desired precision of %f' % precisionTenTargBing
             queryWeights = queryOptimizer.Rocchio(indexer.invertedFile, DocumentListBing, relevantDocumentsBing, nonrelevantDocumentsBing)   #optimize new query here
             newTerms = common.getTopTerms(expandedQueryBing, queryWeights, 2)
+            #check if there are 2 new terms before adding
             expandedQueryBing = expandedQueryBing + " " + newTerms[0] + " " + newTerms[1]
             firstPass = 0
 
@@ -150,11 +156,14 @@ if __name__ == '__main__':
     #precision@10 is > desired , return query and results to user
     print 'Desired precision for context reached, done'
 
+    ## CAPTURING TRENDS
+
     precisionAtK = 0.0
 
     expandedQueryTwitter = expandedQueryBing
-
+    queryOptimizer.clearQuery(expandedQueryTwitter)
     indexerTwitter = indexerTwitter.Indexer()
+
     while (precisionAtK < precisionTenTargTwitter):
         precisionAtK = 0.00 #reset precision each round
         #PROCESS A QUERY
@@ -207,6 +216,9 @@ if __name__ == '__main__':
                 DocumentListTwitter[i]['IsRelevant'] = 0   #1 is true , 0 is false
                 nonrelevantDocumentsTwitter.append(i)
             else:
+                DocumentListTwitter[i]['IsRelevant'] = 1   #1 is true , 0 is false
+                precisionAtK = precisionAtK + 1
+                relevantDocumentsTwitter.append(i)
                 print 'Invalid value entered!'
 
 
@@ -236,11 +248,13 @@ if __name__ == '__main__':
         if (precisionAtK < precisionTenTargTwitter):
             print ''
             print 'Still below desired precision of %f' % precisionTenTargTwitter
+
             queryWeights = queryOptimizer.Rocchio(indexerTwitter.invertedFile, DocumentListTwitter, relevantDocumentsTwitter, nonrelevantDocumentsTwitter)   #optimize new query here
+
             newTerms = common.getTopTerms(expandedQueryTwitter, queryWeights, 1)
             expandedQueryTwitter = expandedQueryTwitter + " " + newTerms[0]
 
-            print 'Augmenting by %s %s' % (newTerms[0], newTerms[1])
+            print 'Augmenting by %s' % (newTerms[0])
 
 
 

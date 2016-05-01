@@ -36,8 +36,9 @@ class TwitterClient:
             if len(words) == 1:
                 expandedQueryTwitter = query
             else:
-                expandedQueryTwitter = ' and '.join('"{0}"'.format(w) for w in query)
+                expandedQueryTwitter = ' and '.join('"{0}"'.format(w) for w in words)
 
+            print "****** Searching Twitter for: " + expandedQueryTwitter
             user_timeline = twitter.search(q=str(expandedQueryTwitter), count='10')
         except TwythonError as e:
             print e

@@ -68,27 +68,28 @@ getTopTerms:
     The current query is used to ensure that returned terms are actually new
 '''
 
-def getTopTerms(currentQuery, weightsMap,topX=2):
+def getTopTerms(currentQuery, weightsMap, topX):
 
     p = PorterStemmer()
     current_terms = []
-    # for term in currentQuery.split():
-    #     term = p.stem(term.lower(), 0,len(term)-1)
-    #     current_terms.append(term)
+    for term in currentQuery.split():
+        term = p.stem(term.lower(), 0,len(term)-1)
+        current_terms.append(term)
         
 
     i = 0
-    terms = []
+    new_terms = []
+    # print "\n\n\n\n\n\n\n\n\n"
+    # print sorted(weightsMap, key=weightsMap.get, reverse=True)
     for term in sorted(weightsMap, key=weightsMap.get, reverse=True):
         if term in constants.QUERY_SKIP_TERMS or p.stem(term.lower(), 0,len(term)-1) in current_terms:
             continue
-        terms.append(term)
+        new_terms.append(term)
         current_terms.append(p.stem(term.lower(), 0,len(term)-1))
         i = i + 1
         if (topX != 'ALL' and i >= topX):
             break;
-
-    return terms
+    return new_terms
 
 
 '''
