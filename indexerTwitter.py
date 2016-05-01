@@ -99,19 +99,8 @@ class Indexer():
 
 			# Create key to hold tf weights
 			document["tfVector"] = { }
-
-			# Retrive Entire document
-			url=document["Url"]
-			req = urllib2.Request(url)
-			req.add_header('User-Agent', 'QueryOptimizer') 
-
-			try:
-				response = urllib2.urlopen(req)
-				body = response.read()
-				# Strip out HTML
-				document["Body"] = strip_tags(body)				
-			except Exception, e:
-				document["Body"] = document["Description"]
+		
+			document["Body"] = document["Description"]
 
 			# Terms List
 			terms = []

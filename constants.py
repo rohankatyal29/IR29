@@ -26,9 +26,9 @@ DELIMITERS 			= '[\s.,=?!:@<>()\"-;\'&_\\{\\}\\|\\[\\]\\\\]+' # DELIMITERS 			= 
 BING_ACCT_KEY		= 'EEss/QY1BWmE0o0fSsqvzmcsZ+2S/lTTT0xgvAy4Z8s'
 BING_URL			= 'https://api.datamarket.azure.com/Data.ashx/Bing/SearchWeb/v1/Web?'
 STEM_TOKEN			= False
-ALPHA 				= 0
-BETA 				= 1.0
-GAMMA				= 1.0
+ALPHA 				= 1.0
+BETA 				= 0.75
+GAMMA				= 0.75
 STEM_IN_ROCCHIO		= False
 IGNORE_TAGS			= ["style", "script"]
 QUERY_SKIP_TERMS	= { "about" : True,

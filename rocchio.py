@@ -56,7 +56,6 @@ class RocchioOptimizeQuery:
                 else:
                     relevantDocsTFWeights[sterm] = doc["tfVector"][term]
 
-        
         for docId in nonrelevantDocs:
             doc = documentsList[docId]
             for term in doc["tfVector"]:
@@ -91,7 +90,7 @@ class RocchioOptimizeQuery:
                     weights[sterm] = weights[sterm] - constants.GAMMA * idf * (nonrelevantDocsTFWeights[sterm]/len(nonrelevantDocs))
 
             # Term 1 of Rocchio, query terms
-            if term in self.query:
+            if term in self.query:   
                 self.query[term] = constants.ALPHA * self.query[term] + weights[sterm]   #build new query vector of weights
             elif weights[sterm] > 0:
                 self.query[term] = weights[sterm]

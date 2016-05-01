@@ -19,6 +19,7 @@ import parserTwitter
 import constants
 import logging
 import indexer
+import indexerTwitter
 import rocchio
 import common
 import math
@@ -152,6 +153,7 @@ if __name__ == '__main__':
     precisionAtK = 0.0 
     expandedQueryTwitter = expandedQueryBing
 
+    indexerTwitter = indexerTwitter.Indexer()
     while (precisionAtK < precisionTenTargTwitter):
         precisionAtK = 0.00 #reset precision each round
         #PROCESS A QUERY
@@ -160,7 +162,7 @@ if __name__ == '__main__':
         print '%-20s= %s' % ("Query", expandedQueryTwitter)
         print '%-20s= %s' % ("Target Precision", precisionTenTargTwitter)
 
-        indexer.clearIndex()
+        indexerTwitter.clearIndex()
 
         if firstPass == 1:
             resultTwitter = twitterClient.webQuery(arglist[3])
@@ -169,9 +171,9 @@ if __name__ == '__main__':
 
         # jsonResult = json.loads(resultTwitter)  #convert string to json
         # put result into a list of documents
-        parsedResult = parserTwitter.Parser(resultTwitter)
-        parsedResult.parser()
-        DocumentListTwitter = parsedResult.getDocList()
+        parsedResultTwitter = parserTwitter.Parser(resultTwitter)
+        parsedResultTwitter.parser()
+        DocumentListTwitter = parsedResultTwitter.getDocList()
 
         print 'Total number of results: %d' % len(DocumentListTwitter)
 
@@ -185,7 +187,7 @@ if __name__ == '__main__':
         for i in range(len(DocumentListTwitter)):
 
             DocumentListTwitter[i]["ID"] = i
-            indexer.indexDocument(DocumentListTwitter[i])
+            indexerTwitter.indexDocument(DocumentListTwitter[i])
 
             print 'Result %d' % (i+1)
             print '['
@@ -193,6 +195,7 @@ if __name__ == '__main__':
             print '  %-9s: %10s' % ("URL", DocumentListTwitter[i]["Url"])
             print '  Tweet Text: ' + DocumentListTwitter[i]['Description']
             print '  Processd Tweet: ' + DocumentListTwitter[i]['ProcessedTweet']
+            print '  documentListID: ' + str(DocumentListTwitter[i]['ID'])
             print ']'
 
             print ''
@@ -222,12 +225,12 @@ if __name__ == '__main__':
             sys.exit()
 
         print 'Indexing results...'
-        indexer.waitForIndexer() # Will block until indexer is done indexing all documents
+        indexerTwitter.waitForIndexer() # Will block until indexer is done indexing all documents
 
         # Print inveretd file
 
-        for term in sorted(indexer.invertedFile, key=lambda posting: len(indexer.invertedFile[posting].keys())):
-            logging.info("%-30s %-2s:%-3d %-2s:%-3d %-3s:%-10f" % (term, "TF", indexer.termsFrequencies[term], "DF", len(indexer.invertedFile[term]), "IDF", math.log(float(len(DocumentListTwitter)) / len(indexer.invertedFile[term].keys()),10)))
+        for term in sorted(indexerTwitter.invertedFile, key=lambda posting: len(indexerTwitter.invertedFile[posting].keys())):
+            logging.info("%-30s %-2s:%-3d %-2s:%-3d %-3s:%-10f" % (term, "TF", indexerTwitter.termsFrequencies[term], "DF", len(indexerTwitter.invertedFile[term]), "IDF", math.log(float(len(DocumentListTwitter)) / len(indexerTwitter.invertedFile[term].keys()),10)))
 
         print '======================'
         print 'FEEDBACK SUMMARY'
@@ -236,9 +239,8 @@ if __name__ == '__main__':
         if (precisionAtK < precisionTenTargTwitter):
             print ''
             print 'Still below desired precision of %f' % precisionTenTargTwitter
-            queryWeights = queryOptimizer.Rocchio(indexer.invertedFile, DocumentListTwitter, relevantDocumentsTwitter, nonrelevantDocumentsBing)   #optimize new query here
-
-
+            queryWeights = queryOptimizer.Rocchio(indexerTwitter.invertedFile, DocumentListTwitter, relevantDocumentsTwitter, nonrelevantDocumentsTwitter)   #optimize new query here
+            print queryWeights
             newTerms = common.getTopTerms(expandedQueryTwitter, queryWeights, 2)
             expandedQueryTwitter = expandedQueryTwitter + " " + newTerms[0] + " " + newTerms[1]
             firstPass = 0

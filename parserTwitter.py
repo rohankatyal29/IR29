@@ -20,7 +20,7 @@ import re
 
 def processTweet(s):
     temp = re.sub(r'http[s]?://(?:[a-z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-f][0-9a-f]))+', '', s)
-    temp = re.sub(r'(\:\w+\:|\<[\/\\]?3|[\(\)\\\D|\*\$][\-\^]?[\:\;\=]|[\:\;\=B8][\-\^]?[3DOPp\@\$\*\\\)\(\/\|])(?=\s|[\!\.\?]|$)', '', temp)
+    temp = re.sub(r'/[.,\/#!$%\^&\*;:{}=\-_`~()]/g', '', temp)
     return temp
 
 class Parser:
