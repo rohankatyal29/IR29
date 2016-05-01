@@ -32,9 +32,13 @@ class TwitterClient:
             #user_timeline = twitter.get_user_timeline(screen_name='prateekdewan')
 
              #TODO: CHANGE 2 IN THE QUERY BELOW TO 10!!!!!
+            words = re.compile('\w+').findall(query)
+            if len(words) == 1:
+                expandedQueryTwitter = query
+            else:
+                expandedQueryTwitter = ' and '.join('"{0}"'.format(w) for w in query)
 
-
-            user_timeline = twitter.search(q=str(query), count='10')
+            user_timeline = twitter.search(q=str(expandedQueryTwitter), count='10')
         except TwythonError as e:
             print e
 

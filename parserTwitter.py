@@ -18,10 +18,30 @@ from nltk.corpus import stopwords
 import string
 import re
 
+def filter_ascii(s):
+    if all(ord(c) < 128 for c in s) == True:
+      string = s
+      for c in s:
+        # only a-z and A-Z for now
+        if (ord(c) >= 65 and ord(c) <= 90) or (ord(c) >= 97 and ord(c) <= 122):
+          continue
+        else:
+          string = string.replace(c, "")
+      return string
+    return ''
+
 def processTweet(s):
     temp = re.sub(r'http[s]?://(?:[a-z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-f][0-9a-f]))+', '', s)
-    temp = re.sub(r'/[.,\/#!$%\^&\*;:{}=\-_`~()]/g', '', temp)
-    return temp
+    text = temp.split()
+    processed_text = ''
+    for word in text:
+        if word[0] == "@" or word[0] == "#":
+            processed_text = processed_text + " " + word
+        elif word == 'RT':
+            continue
+        else:
+            processed_text = processed_text + " " + filter_ascii(word)
+    return processed_text
 
 class Parser:
     '''

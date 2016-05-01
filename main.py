@@ -150,7 +150,8 @@ if __name__ == '__main__':
     #precision@10 is > desired , return query and results to user
     print 'Desired precision for context reached, done'
 
-    precisionAtK = 0.0 
+    precisionAtK = 0.0
+
     expandedQueryTwitter = expandedQueryBing
 
     indexerTwitter = indexerTwitter.Indexer()
@@ -163,11 +164,7 @@ if __name__ == '__main__':
         print '%-20s= %s' % ("Target Precision", precisionTenTargTwitter)
 
         indexerTwitter.clearIndex()
-
-        if firstPass == 1:
-            resultTwitter = twitterClient.webQuery(arglist[3])
-        else:
-            resultTwitter = twitterClient.webQuery(expandedQueryTwitter)
+        resultTwitter = twitterClient.webQuery(expandedQueryTwitter)
 
         # jsonResult = json.loads(resultTwitter)  #convert string to json
         # put result into a list of documents
@@ -240,10 +237,8 @@ if __name__ == '__main__':
             print ''
             print 'Still below desired precision of %f' % precisionTenTargTwitter
             queryWeights = queryOptimizer.Rocchio(indexerTwitter.invertedFile, DocumentListTwitter, relevantDocumentsTwitter, nonrelevantDocumentsTwitter)   #optimize new query here
-            print queryWeights
-            newTerms = common.getTopTerms(expandedQueryTwitter, queryWeights, 2)
-            expandedQueryTwitter = expandedQueryTwitter + " " + newTerms[0] + " " + newTerms[1]
-            firstPass = 0
+            newTerms = common.getTopTerms(expandedQueryTwitter, queryWeights, 1)
+            expandedQueryTwitter = expandedQueryTwitter + " " + newTerms[0]
 
             print 'Augmenting by %s %s' % (newTerms[0], newTerms[1])
 
