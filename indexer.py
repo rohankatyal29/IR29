@@ -137,7 +137,8 @@ class Indexer():
 				if (token == '' or len(token) <= 1 or len(token) >= 10 or is_number(token)):
 					logging.debug('Indexer-%s: Discarding short or empty token \'%s\'' % (i, token))
 					continue
-
+				if token in constants.QUERY_SKIP_TERMS:
+					continue
 				terms.append(token)
 
 				# Insert into invertedFile
