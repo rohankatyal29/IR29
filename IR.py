@@ -25,7 +25,7 @@ except TwythonError as e:
 
 #The JSON output object is stored in this file. Go to http://jsonviewer.stack.hu/ and paste the content of this file there. 
 #Then go to viewer tab on the website and view the JSON object 
-f = open('tweets.txt', 'w')
+f = open('../tweets.txt', 'w')
 f.write(json.dumps(user_timeline))
 f.close()
 
