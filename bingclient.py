@@ -25,7 +25,6 @@ class BingClient:
         '''
         Constructor
         '''
-       
         #enfore pseudo privacy of account key member with __ prefix
         self.__i_accountKey = AccountKey
         
@@ -35,6 +34,10 @@ class BingClient:
     #send a web query to Bing Search API returning top 10 results as json   
     def webQuery(self, query):
         #format query based on OData protocol and desired JSON format of results
+
+
+        #TODO: CHANGE 2 IN THE QUERY BELOW TO 10!!!!!
+
         url_query = 'Query=' + '%27' + query.replace(' ', '+') + '%27' + '&$top=10&$format=JSON'
         #encode account key
         logging.debug('Account Key: ' + self.__i_accountKey)

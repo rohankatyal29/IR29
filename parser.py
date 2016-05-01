@@ -19,8 +19,6 @@ class Parser:
     '''
     classdocs
     '''
-
-
     def __init__(self, rawJSON):
         
         self.rawJSON = rawJSON

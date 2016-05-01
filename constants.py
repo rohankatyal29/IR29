@@ -17,7 +17,10 @@ IGNORE_TAGS				: A list of HTML tags in which its content must be ignored (e.g. 
 QUERY_SKIP_TERMS		: A list of terms that should not be considered in the expanded query even with high scores (e.g. stop words)
 '''
 
-
+APP_KEY = 'FNvw9uGigsXEDByNEJWYFoeIS'
+APP_SECRET =  'JwzMsVDRpG7QKN802nNJvqRgTtIYfWVkKafJ3DEvxJq6ar2QaZ'
+OAUTH_TOKEN = '180749030-KVaAVMpHHtve5mUOOG4AUIR0tW3owBNn1vT9e02T'
+OAUTH_TOKEN_SECRET = 'Sog4UebCOOSu6TbR84IZEohO0rhpRgUrX4QXvHG5azOik'
 NUM_INDEXER_THREADS	=	2
 DELIMITERS 			= '[\s.,=?!:@<>()\"-;\'&_\\{\\}\\|\\[\\]\\\\]+' # DELIMITERS 			= '\W+'
 BING_ACCT_KEY		= 'EEss/QY1BWmE0o0fSsqvzmcsZ+2S/lTTT0xgvAy4Z8s'
