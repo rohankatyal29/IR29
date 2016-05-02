@@ -1,7 +1,5 @@
 '''
 
-@author: aiman.najjar
-
 Constants and Setting Variables.
 
 NUM_INDEXER_THREADS		: How many indexer worker threads should work concurrently

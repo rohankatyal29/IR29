@@ -1,7 +1,4 @@
 '''
-Created on Sep 21, 2012
-
-@author: aiman.najjar
 
 This class is resposible for indexing the documents and it performs the following steps:
 	1. Retrieves the body content of the document, if the HTTP request fails, the body summary returned in Bing API is used
@@ -43,10 +40,6 @@ Here is the invertedFile structure:
 		other terms
 
 	}
-
-
-You will notice our liberal usage of hash maps which are convenient for quick access but consume larger memory, we explain our design choice in the README file
-
 
 '''
 

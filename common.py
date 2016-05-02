@@ -1,7 +1,4 @@
 '''
-
-@author: aiman.najjar
-
 Functions that are commonly used across the project
 
 '''
@@ -15,13 +12,7 @@ from HTMLParser import HTMLParser
 from PorterStemmer import PorterStemmer
 
 
-'''
-MLStripper:
- An implementation of the HTMLParser class that returns only useful terms and discard other markup
- Initial skeleton of this implementation was obtained from the following StackOverflow page but was modified as per our needs:
- http://stackoverflow.com/questions/753052/strip-html-from-strings-in-python
-'''
-
+# To strip mark up language from HTML content (help taken from stackoverflow for this)
 class MLStripper(HTMLParser):
     def __init__(self):
         self.reset()
@@ -44,7 +35,7 @@ class MLStripper(HTMLParser):
     def get_data(self):
         return ''.join(self.fed)
 
-# Convinent function to quickly invoke our special HTML parser
+# Convinent function to quickly invoke our HTML parser
 def strip_tags(html):
     s = MLStripper()
     try:
@@ -62,25 +53,18 @@ def is_number(s):
     except ValueError:
         return False
 
-'''
-getTopTerms:
-    Given the current query and the new query vector, return the highest scoring terms (default 2 terms)
-    The current query is used to ensure that returned terms are actually new
-'''
 
+#Given the current query and the new query vector, return the highest scoring terms
 def getTopTerms(currentQuery, weightsMap, topX):
 
     p = PorterStemmer()
     current_terms = []
     for term in currentQuery.split():
         term = p.stem(term.lower(), 0,len(term)-1)
-        current_terms.append(term)
-        
+        current_terms.append(term)    
 
     i = 0
     new_terms = []
-    # print "\n\n\n\n\n\n\n\n\n"
-    # print sorted(weightsMap, key=weightsMap.get, reverse=True)
     for term in sorted(weightsMap, key=weightsMap.get, reverse=True):
         if term in constants.QUERY_SKIP_TERMS or p.stem(term.lower(), 0,len(term)-1) in current_terms:
             continue
@@ -92,11 +76,8 @@ def getTopTerms(currentQuery, weightsMap, topX):
     return new_terms
 
 
-'''
-printWeights:
-    Given the new query vector, print out the highest scoring terms (default 10 terms)
-    Used for debugging purposes only
-'''
+
+#Given the new query vector, print out the highest scoring terms (default 10 terms) (for DEBUGGING purposes only)
 def printWeights(weightsMap,topX=10):
     i = 0
     for term in sorted(weightsMap, key=weightsMap.get, reverse=True):

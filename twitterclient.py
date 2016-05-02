@@ -29,9 +29,8 @@ class TwitterClient:
         twitter = Twython(self.app_key, self.app_secret, self.oauth_token, self.oauth_token_secret)
 
         try:
-            #user_timeline = twitter.get_user_timeline(screen_name='prateekdewan')
+            #user_timeline = twitter.get_user_timeline(screen_name='meghaarora42')
 
-             #TODO: CHANGE 2 IN THE QUERY BELOW TO 10!!!!!
             # words = re.compile('\w+').findall(query)
             # if len(words) == 1:
             #     expandedQueryTwitter = query
@@ -59,26 +58,26 @@ class TwitterClient:
         # cur.execute(sql_create_table)
         # con.commit()
 
-        client = MongoClient('localhost', 27017)
-        db = client['IR']
-        collection = db['twitter']
+        # client = MongoClient('localhost', 27017)
+        # db = client['IR']
+        # collection = db['twitter']
     
         #parse the tweets
         #for tweet_item in user_timeline:
-        for tweet_item in user_timeline['statuses']:
-            # tweet_id = tweet_item['id']
-            # user_id =  tweet_item['user']['id']
-            # screen_name = tweet_item['user']['screen_name']
-            # text =  tweet_item['text']
-            # tokens = preprocess(text)
-            # terms_stop = [term for term in tokens if term not in stop]
-            # is_retweeted =  tweet_item['retweeted']
-            # retweet_count = tweet_item['retweet_count']
-            try:
-                collection.insert(tweet_item)
-                # print tweet_id , screen_name, text
+        # for tweet_item in user_timeline['statuses']:
+        #     # tweet_id = tweet_item['id']
+        #     # user_id =  tweet_item['user']['id']
+        #     # screen_name = tweet_item['user']['screen_name']
+        #     # text =  tweet_item['text']
+        #     # tokens = preprocess(text)
+        #     # terms_stop = [term for term in tokens if term not in stop]
+        #     # is_retweeted =  tweet_item['retweeted']
+        #     # retweet_count = tweet_item['retweet_count']
+        #     try:
+        #         collection.insert(tweet_item)
+        #         # print tweet_id , screen_name, text
 
-            except: pass
+        #     except: pass
 
         return user_timeline
     

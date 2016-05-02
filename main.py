@@ -1,9 +1,5 @@
 '''
-Created on Sep 21, 2012
-
-@author: johnterzis
-
-arguments: <precision> <query>
+arguments: <precision_bing> <precision_twitter> <query>
 
 Contains the main loop of the application
 
@@ -68,7 +64,7 @@ if __name__ == '__main__':
         indexer.clearIndex()
 
         if firstPass == 1:
-            resultBing = bingClient.webQuery(arglist[3])
+            resultBing = bingClient.webQuery(expandedQueryBing)
         else:
             resultBing = bingClient.webQuery(expandedQueryBing)
 

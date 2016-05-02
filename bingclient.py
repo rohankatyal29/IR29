@@ -1,15 +1,3 @@
-'''
-Created on Sep 21, 2012
-
-@author: johnterzis
-
-BingClient takes in an Account Key to its ctor and exposes web search query
-method to client that is a wrapper of Bing Search API 1.0
-
-Parameters are standardized based on assignment requirements and query returns
-top 10 results only, in JSON format
-'''
-
 import json
 import urllib
 import urllib2
@@ -34,7 +22,6 @@ class BingClient:
     #send a web query to Bing Search API returning top 10 results as json   
     def webQuery(self, query):
         #format query based on OData protocol and desired JSON format of results
-
 
         #TODO: CHANGE 2 IN THE QUERY BELOW TO 10!!!!!
 
